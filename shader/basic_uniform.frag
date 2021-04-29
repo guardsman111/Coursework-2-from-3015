@@ -6,6 +6,7 @@ struct LightInfo
 {
     vec4 Position; //Position in eye corrds
     vec3 Intensity; //A,D,S Intensity
+    vec3 L;
 };
 uniform LightInfo Light;
 
@@ -44,7 +45,7 @@ vec3 BlinnPhong( vec3 position, vec3 n )
     float sDotN = max( dot(s,n), 0.0f );
 
     //difuse formula for light calculations
-    //vec3 diffuse = Light.L * Material.Kd * sDotN;
+    vec3 diffuse = Light.L * Material.Kd * sDotN;
 
     vec3 spec = vec3(0.0);
 
@@ -55,7 +56,7 @@ vec3 BlinnPhong( vec3 position, vec3 n )
         spec = Material.Ks * pow( max( dot(h,n), 0.1f ), Material.Shininess );
     }   
     
-    return ambient; //+ Light.L * (diffuse + spec);
+    return ambient;// * (diffuse + spec); - this causes a link error crash
 }
 
 void main()

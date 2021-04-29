@@ -5,7 +5,6 @@ uniform int Cycle;
 //in variables, this are in model coordinates
 layout (location = 0) in vec3 VertexPosition; 
 layout (location = 1) in vec3 VertexNormal; 
-layout (location = 2) in vec2 VertexPosition2;
 
 //out vector needed for the fragment shader
 out vec3 VPosition;
