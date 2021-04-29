@@ -20,29 +20,54 @@ SceneBasic_Uniform::SceneBasic_Uniform()
 
 void SceneBasic_Uniform::initScene()
 {
-    if (cycleN == 0) 
-    {
-        compile();
+    compile();
 
-        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
-        glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 
-        float c = 2.5f;
-        projection = glm::ortho(-0.4f * c, 0.4f * c, -0.3f * c, 0.3f * c, 0.1f, 100.0f);
+    float c = 3.5f;
+    projection = glm::ortho(-0.4f * c, 0.4f * c, -0.3f * c, 0.3f * c, 0.1f, 100.0f);
 
-        ///////////////// UNIFORMSES /////////////////////
-        prog.setUniform("Line.Width", 0.2f);
-        prog.setUniform("Line.Color", glm::vec4(0.05f, 1.0f, 0.55f, 1.0f));
-        prog.setUniform("Material.Kd", 0.0f, 0.7f, 0.2f);
-        prog.setUniform("Material.Ka", 0.2f, 0.3f, 0.8f);
-        prog.setUniform("Material.Ks", 0.8f, 0.8f, 0.8f);
-        prog.setUniform("Material.Shininess", 100.0f);
-        prog.setUniform("Light.Intensity", 1.0f, 1.0f, 1.0f);
-        prog.setUniform("Light.Position", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    }
+    glPointSize(10.0f);
 
-    if (cycleN == 1) 
+    float v[] = { -1.0f, -1.0f, -0.5f, 1.0f, 0.5f, -1.0f, 1.0f, 1.0f };
+
+    ///////////////// UNIFORMSES /////////////////////
+    GLuint vboHandle;
+
+    glGenBuffers(1, &vboHandle);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
+    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), v, GL_STATIC_DRAW);
+
+    glGenVertexArrays(1, &vaoHandle);
+    glBindVertexArray(vaoHandle);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(2);
+
+    glBindVertexArray(2);
+
+    prog.use();
+    prog.setUniform("NumSegments", 50);
+    prog.setUniform("NumSegments", 1);
+    prog.setUniform("Line.Width", 0.2f);
+    prog.setUniform("Line.Color", glm::vec4(0.05f, 1.0f, 0.55f, 1.0f));
+    prog.setUniform("Material.Kd", 0.0f, 0.7f, 0.2f);
+    prog.setUniform("Material.Ka", 0.2f, 0.3f, 0.8f);
+    prog.setUniform("Material.Ks", 0.8f, 0.8f, 0.8f);
+    prog.setUniform("Material.Shininess", 100.0f);
+    prog.setUniform("Light.Intensity", 1.0f, 1.0f, 1.0f);
+    prog.setUniform("Light.Position", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+    solidProg.use();
+    solidProg.setUniform("Color", glm::vec4(0.5f, 1.0f, 1.0f, 1.0f));
+
+    glPatchParameteri(GL_PATCH_VERTICES, 16);
+
+    /*if (cycleN == 1)
     {
         compile();
 
@@ -65,10 +90,10 @@ void SceneBasic_Uniform::initScene()
         glBindVertexArray(vaoHandle);
 
         glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+        glEnableVertexAttribArray(2);
 
-        glBindVertexArray(0);
+        glBindVertexArray(2);
 
         glPatchParameteri(GL_PATCH_VERTICES, 4);
 
@@ -86,7 +111,7 @@ void SceneBasic_Uniform::initScene()
 
         solidProg.use();
         solidProg.setUniform("Color", glm::vec4(0.5f, 1.0f, 1.0f, 1.0f));
-    }
+    }*/
 }
 
 void SceneBasic_Uniform::compile()
@@ -117,8 +142,6 @@ void SceneBasic_Uniform::update( float t )
 
 void SceneBasic_Uniform::render()
 {
-    if (cycleN == 0) 
-    {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         const float radius = 10.0f;
@@ -132,6 +155,8 @@ void SceneBasic_Uniform::render()
 
         model = mat4(1.0f);
 
+        glBindVertexArray(vaoHandle);
+
         setMatrices(); //we set matrices 
         //torus.render();     //we render the torus
         //teapot.render();  
@@ -139,8 +164,7 @@ void SceneBasic_Uniform::render()
         ogre->render();
 
         glFinish();
-    }
-    else if(cycleN == 1)
+    /*if(cycleN == 1)
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -162,14 +186,14 @@ void SceneBasic_Uniform::render()
 
         glFinish();
 
-    }
+    }*/
 }
 
 void SceneBasic_Uniform::setMatrices()
 {
-    if (cycleN == 0)
-    {
         mat4 mv = view * model; //we create a model view matrix
+
+        prog.use();
     
         prog.setUniform("ModelViewMatrix", mv); //set the uniform for the model view matrix
     
@@ -180,15 +204,19 @@ void SceneBasic_Uniform::setMatrices()
         prog.setUniform("ViewportMatrix", viewport);
 
         prog.setUniform("Cycle", cycleN); //set the cycle number in the shaders
-    }
-    if (cycleN == 1) 
-    {
-        mat4 mv = view * model; //we create a model view matrix
-        prog.use();
-        prog.setUniform("MVP", projection * mv); //we set the model view matrix by multiplying the mv with the projection matrix
         solidProg.use();
         solidProg.setUniform("MVP", projection * mv); //we set the model view matrix by multiplying the mv with the projection matrix
-    }
+    
+    //if (cycleN == 1) 
+    //{
+    //    prog.setUniform("Cycle", cycleN); //set the cycle number in the shaders
+
+    //    mat4 mv = view * model; //we create a model view matrix
+    //    prog.use();
+    //    prog.setUniform("MVP", projection * mv); //we set the model view matrix by multiplying the mv with the projection matrix
+    //    solidProg.use();
+    //    solidProg.setUniform("MVP", projection * mv); //we set the model view matrix by multiplying the mv with the projection matrix
+    //}
 }
 
 void SceneBasic_Uniform::resize(int w, int h)

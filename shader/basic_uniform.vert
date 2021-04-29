@@ -5,6 +5,7 @@ uniform int Cycle;
 //in variables, this are in model coordinates
 layout (location = 0) in vec3 VertexPosition; 
 layout (location = 1) in vec3 VertexNormal; 
+layout (location = 2) in vec2 VertexPosition2;
 
 //out vector needed for the fragment shader
 out vec3 VPosition;
@@ -18,12 +19,18 @@ uniform mat4 MVP;				//model view projection matrix
  
 void main() 
 { 
+    VPosition = vec3(ModelViewMatrix * vec4(VertexPosition, 1.0));
 
-  VPosition = vec3(ModelViewMatrix * vec4(VertexPosition, 1.0));
+    VNormal = normalize(NormalMatrix * VertexNormal);
 
-  VNormal = normalize(NormalMatrix * VertexNormal);
+    //turns any vertex position into model view projection in preparations to 
+    //graphics pipeline processes before fragment shader (clipping)
+    //gl_Position = MVP * vec4(VertexPosition,1.0); 
+    gl_Position = vec4(VertexPosition, 1.0); 
 
-  //turns any vertex position into model view projection in preparations to 
-  //graphics pipeline processes before fragment shader (clipping)
-  gl_Position = MVP * vec4(VertexPosition,1.0); 
+
+//  if(Cycle == 1)
+//  {
+//    gl_Position = vec4(VertexPosition2, 0.0, 1.0); 
+//  }
 } 

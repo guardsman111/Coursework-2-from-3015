@@ -8,8 +8,8 @@ out vec3 GPosition;
 
 noperspective out vec3 GEdgeDistance;
 
-in vec3 VNormal[];
-in vec3 VPosition[];
+in vec3 TENormal[];
+in vec3 TEPosition[];
 
 uniform mat4 ViewportMatrix;
 
@@ -37,20 +37,20 @@ void main()
     //passing the distance and position of the new vertex, as well as the normal and position of the mesh to frag
 
     GEdgeDistance = vec3 (ha, 0, 0);
-    GNormal = VNormal[0];
-    GPosition = VPosition[0];
+    GNormal = TENormal[0];
+    GPosition = TEPosition[0];
     gl_Position = gl_in[0].gl_Position;
     EmitVertex();
     
     GEdgeDistance = vec3 (0, hb, 0);
-    GNormal = VNormal[1];
-    GPosition = VPosition[1];
+    GNormal = TENormal[1];
+    GPosition = TEPosition[1];
     gl_Position = gl_in[1].gl_Position;
     EmitVertex();
     
     GEdgeDistance = vec3 (0, 0, hc);
-    GNormal = VNormal[2];
-    GPosition = VPosition[2];
+    GNormal = TENormal[2];
+    GPosition = TEPosition[2];
     gl_Position = gl_in[2].gl_Position;
     EmitVertex();
 

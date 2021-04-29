@@ -60,8 +60,6 @@ vec3 BlinnPhong( vec3 position, vec3 n )
 
 void main()
 {
-    if(Cycle == 0)
-    {
         //calculate the colour
         vec4 color = vec4(BlinnPhong(GPosition, GNormal), 1.0);
 
@@ -83,12 +81,14 @@ void main()
             float x = d - (Line.Width - 1);
             mixVal = exp2(-2.0 * (x * x));
         }
+
+
+        color = pow(color, vec4(1.0/2.2));
     
         FragColor = mix( color, Line.Color, mixVal);
-    }
 
-    if (Cycle == 1)
-    {
-        FragColor = Line.Color;
-    }
+//    if (Cycle == 1)
+//    {
+//        FragColor = Line.Color;
+//    }
 }

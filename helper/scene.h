@@ -11,7 +11,7 @@ public:
     int width;
     int height;
 
-    int cycleN = 0;
+    int cycleN = 1;
 
 	Scene() : m_animate(true), width(800), height(600) { }
 	virtual ~Scene() {}

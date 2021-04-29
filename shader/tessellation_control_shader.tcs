@@ -1,10 +1,8 @@
 #version 460
 
-layout(vertices=4) out;
+layout(vertices=16) out;
 
-uniform int NumSegments;
-
-uniform int NumStrips;
+uniform int TessLevel;
 
 void main()
 {
@@ -12,6 +10,11 @@ void main()
 
 	gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
 
-	gl_TessLevelOuter[0] = float(NumStrips);
-	gl_TessLevelOuter[1] = float(NumSegments);
+	gl_TessLevelOuter[0] = float(TessLevel);
+	gl_TessLevelOuter[1] = float(TessLevel);
+	gl_TessLevelOuter[2] = float(TessLevel);
+	gl_TessLevelOuter[3] = float(TessLevel);
+	
+	gl_TessLevelInner[1] = float(TessLevel);
+	gl_TessLevelInner[0] = float(TessLevel);
 }

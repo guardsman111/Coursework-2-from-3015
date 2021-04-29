@@ -1,3 +1,5 @@
 ﻿F:\Program Files (x86)\Visual Studio\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(459,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Project_Template.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  main.cpp
+  scenebasic_uniform.cpp
+F:\Work\Comp3015\Coursework 2\scenebasic_uniform.cpp(149,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+F:\Work\Comp3015\Coursework 2\scenebasic_uniform.cpp(150,20): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   Project_Template.vcxproj -> F:\Work\Comp3015\Coursework 2\x64\Debug\Coursework2.exe
