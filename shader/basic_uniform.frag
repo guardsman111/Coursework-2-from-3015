@@ -56,7 +56,7 @@ vec3 BlinnPhong( vec3 position, vec3 n )
         spec = Material.Ks * pow( max( dot(h,n), 0.1f ), Material.Shininess );
     }   
     
-    return ambient;// * (diffuse + spec); - this causes a link error crash
+    return ambient * (diffuse + spec); 
 }
 
 void main()
@@ -83,8 +83,6 @@ void main()
             mixVal = exp2(-2.0 * (x * x));
         }
 
-
-        color = pow(color, vec4(1.0/2.2));
     
         FragColor = mix( color, Line.Color, mixVal);
 

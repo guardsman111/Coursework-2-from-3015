@@ -65,18 +65,6 @@
     <None Include="shader\Geometry_Shader.geom">
       <Filter>shaders</Filter>
     </None>
-    <None Include="shader\tessellation_evalution.tes">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shader\solid.fs">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shader\solid.vs">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="shader\tessellation_control_shader.tcs">
-      <Filter>shaders</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="helper\scene.h">

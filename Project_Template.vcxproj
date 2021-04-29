@@ -160,10 +160,6 @@
     <None Include="shader\basic_uniform.frag" />
     <None Include="shader\basic_uniform.vert" />
     <None Include="shader\Geometry_Shader.geom" />
-    <None Include="shader\solid.fs" />
-    <None Include="shader\solid.vs" />
-    <None Include="shader\tessellation_control_shader.tcs" />
-    <None Include="shader\tessellation_evalution.tes" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="helper\aabb.h" />

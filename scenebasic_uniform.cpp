@@ -34,24 +34,6 @@ void SceneBasic_Uniform::initScene()
     float v[] = { -1.0f, -1.0f, -0.5f, 1.0f, 0.5f, -1.0f, 1.0f, 1.0f };
 
     ///////////////// UNIFORMSES /////////////////////
-    GLuint vboHandle;
-
-    glGenBuffers(1, &vboHandle);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
-    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), v, GL_STATIC_DRAW);
-
-    glGenVertexArrays(1, &vaoHandle);
-    glBindVertexArray(vaoHandle);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vboHandle);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(0);
-
-    glBindVertexArray(0);
-
-    prog.use();
-    prog.setUniform("Tesslevel", 16);
     prog.setUniform("Line.Width", 0.2f);
     prog.setUniform("Line.Color", glm::vec4(0.05f, 1.0f, 0.55f, 1.0f));
     prog.setUniform("Material.Kd", 0.0f, 0.7f, 0.2f);
@@ -62,11 +44,7 @@ void SceneBasic_Uniform::initScene()
     prog.setUniform("Light.L", vec3(0.9f));
     prog.setUniform("Light.Position", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
-    //solidProg.use();
-    //solidProg.setUniform("Color", glm::vec4(0.5f, 1.0f, 1.0f, 1.0f));
-
-    glPatchParameteri(GL_PATCH_VERTICES, 16);
-
+    
     /*if (cycleN == 1)
     {
         compile();
@@ -120,14 +98,8 @@ void SceneBasic_Uniform::compile()
 		prog.compileShader("shader/basic_uniform.vert");
 		prog.compileShader("shader/basic_uniform.frag");
         prog.compileShader("shader/Geometry_Shader.geom");
-        prog.compileShader("shader/tessellation_control_shader.tcs");
-        prog.compileShader("shader/tessellation_evalution.tes");
 		prog.link();
 		prog.use();
-
-        //solidProg.compileShader("shader/solid.vs");
-        //solidProg.compileShader("shader/solid.fs");
-        //solidProg.link();
 
 	} catch (GLSLProgramException &e) {
 		cerr << e.what() << endl;
@@ -154,10 +126,7 @@ void SceneBasic_Uniform::render()
         view = glm::lookAt(cameraPos, vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 
         model = mat4(1.0f);
-        model = glm::translate(model, vec3(0.0f, -1.5f, 0.0f));
-        model = glm::rotate(model, glm::radians(-90.0f), vec3(1.0f, 0.0f, 0.0f));
 
-        //glBindVertexArray(vaoHandle);
 
         setMatrices(); //we set matrices 
         //torus.render();     //we render the torus
@@ -206,8 +175,6 @@ void SceneBasic_Uniform::setMatrices()
         prog.setUniform("ViewportMatrix", viewport);
 
         prog.setUniform("Cycle", cycleN); //set the cycle number in the shaders
-        //solidProg.use();
-        //solidProg.setUniform("MVP", projection * mv); //we set the model view matrix by multiplying the mv with the projection matrix
     
     //if (cycleN == 1) 
     //{
@@ -231,5 +198,5 @@ void SceneBasic_Uniform::resize(int w, int h)
 
     //width = w;
     //height = h;
-    projection = glm::perspective(glm::radians(70.0f), (float)w / h, 0.3f, 100.0f);
+    //projection = glm::perspective(glm::radians(70.0f), (float)w / h, 0.3f, 100.0f);
 }

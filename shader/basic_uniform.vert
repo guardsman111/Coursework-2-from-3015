@@ -24,8 +24,8 @@ void main()
 
     //turns any vertex position into model view projection in preparations to 
     //graphics pipeline processes before fragment shader (clipping)
-    //gl_Position = MVP * vec4(VertexPosition,1.0); 
-    gl_Position = vec4(VertexPosition, 1.0); 
+    gl_Position = MVP * vec4(VertexPosition,1.0); 
+    //gl_Position = vec4(VertexPosition, 1.0); 
 
 
 //  if(Cycle == 1)
