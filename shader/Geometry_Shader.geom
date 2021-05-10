@@ -1,13 +1,15 @@
 #version 460
 
+//Recieves the triangles from the model 
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
+//Outputs the geometry to the frag shader
 out vec3 GNormal;
 out vec3 GPosition;
-
 noperspective out vec3 GEdgeDistance;
 
+//Input for vertex positions
 in vec3 VNormal[];
 in vec3 VPosition[];
 
@@ -36,7 +38,7 @@ void main()
 
     //passing the distance and position of the new vertex, as well as the normal and position of the mesh to frag
 
-    GEdgeDistance = vec3 (ha, 0, 0);
+    GEdgeDistance = vec3 (ha, 0, 0); //sets each variable of the geometry
     GNormal = VNormal[0];
     GPosition = VPosition[0];
     gl_Position = gl_in[0].gl_Position;
